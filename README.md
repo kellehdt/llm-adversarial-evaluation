@@ -73,3 +73,41 @@ The following assets are considered security-sensitive within the system and mus
 
 - **Input Data Integrity (CV and Job Description Content)**:  
   Inputs may contain fabricated, misleading, or adversarially crafted information designed to influence evaluation outcomes or exploit weaknesses in reasoning.
+
+## 4. Security Requirements
+
+The system must satisfy the following security properties:
+
+- **R1: Strict Instruction Hierarchy Enforcement**  
+  The system must only follow instructions from trusted sources (system-level instructions). User inputs, CVs, and job descriptions are untrusted and must not override or modify system behavior.
+
+- **R2: Data vs Instruction Separation**  
+  All external inputs (CVs, job descriptions, user prompts) must be treated strictly as data. The system must not execute or act on any instructions embedded within these inputs, particularly during transformation tasks such as summarization or extraction.
+
+- **R3: No Sensitive Information Disclosure**  
+  The system must not reveal:
+  - system prompts or internal instructions  
+  - hidden scoring rubrics or evaluation logic  
+  - unnecessary personally identifiable information (PII)  
+  - intermediate reasoning or internal representations  
+
+- **R4: Controlled and Constrained Output Generation**  
+  The system must produce outputs only in a predefined, structured format (e.g., fit assessment + justification). Outputs must not contain extraneous information, internal metadata, or content unrelated to the evaluation task.
+
+- **R5: Consistent Security Across All Pipeline Stages**  
+  Security constraints must be enforced at every stage of the pipeline, including intermediate transformations (e.g., summarization, requirement extraction). Intermediate outputs must not introduce or propagate adversarial instructions.
+
+- **R6: Robustness to Adversarial and Malicious Inputs**  
+  The system must detect and appropriately handle inputs containing prompt injection attempts, malicious instructions, or misleading content. This may include refusal, sanitization, or neutral transformation of the input.
+
+- **R7: Output Grounding and Faithfulness**  
+  All claims made in the final assessment must be grounded in the provided CV and job description. The system must not fabricate qualifications, exaggerate evidence, or infer unsupported attributes.
+
+- **R8: Input and Output Validation Mechanisms**  
+  Where possible, deterministic or secondary model-based checks should be applied to:
+  - detect known prompt injection patterns in inputs  
+  - verify that outputs conform to format and safety requirements  
+  These checks must not themselves introduce new vulnerabilities.
+
+- **R9: Minimization of Sensitive Data Exposure**  
+  The system should minimize the use and propagation of sensitive data, ensuring that only information necessary for the evaluation task is included in outputs.
