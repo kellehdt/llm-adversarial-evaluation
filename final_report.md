@@ -2,13 +2,13 @@
 
 ## 1. Overview
 
-This report evaluates the robustness of an LLM-based candidate evaluation system against adversarial inputs, including prompt injection, data exfiltration, and transformation exploits.
+This report evaluates the security of an LLM-based candidate evaluation system against adversarial inputs, including prompt injection, data exfiltration, and transformation exploits.
 
 The objective is to:
 - Identify failure modes  
 - Quantify system weaknesses  
 - Design mitigations  
-- Evaluate improvements in a hardened v2 system  
+- Evaluate improvements in an updated v2 system  
 
 ---
 
@@ -47,7 +47,7 @@ Each case includes:
 
 The v1 system fails in over half of adversarial scenarios: 
 
-This indicates **significant security and robustness gaps** under adversarial prompting.
+This indicates significant security and robustness gaps under adversarial prompting.
 
 ---
 
@@ -65,7 +65,7 @@ This indicates **significant security and robustness gaps** under adversarial pr
 **Impact:**
 - Enables reverse engineering  
 - Breaks system abstraction  
-- Weakens long-term robustness  
+- Weakens long-term security  
 
 ---
 
@@ -166,7 +166,7 @@ System > Developer > User > Retrieved Content
 
 ### 2. Data vs Instruction Separation
 
-- CV and job descriptions treated as **data only**  
+- CV and job descriptions treated as data only  
 - Embedded instructions ignored  
 
 ---
@@ -178,7 +178,7 @@ If request involves:
 - Internal rubric  
 - Hidden reasoning  
 
-→ Explicit refusal + stop  
+Explicit refusal + stop  
 
 ---
 
@@ -221,7 +221,6 @@ If request involves:
 | **Total**| 35    | 100%   |
 
 ---
----
 
 ## 8. Failure Mode Analysis (v2)
 
@@ -241,12 +240,11 @@ If request involves:
 
 **Key Insight:**
 
-All remaining failures in v2 stem from a **single root cause**:
+All remaining failures in v2 stem from a single root cause:
 
-> Incomplete enforcement of task boundaries.
+- Incomplete enforcement of task boundaries.
 
-This represents a shift from **high-risk security failures (v1)**  
-→ to **lower-risk but systematic control failures (v2)**
+This represents a shift from high-risk security failures (v1) to lower-risk but systematic control failures (v2)
 
 ---
 
@@ -263,17 +261,15 @@ This represents a shift from **high-risk security failures (v1)**
 
 ### Key Takeaway
 
-The v2 system **successfully eliminates all critical security vulnerabilities**, including:
+The v2 system successfully eliminates all critical security vulnerabilities, including:
 
 - Data exfiltration  
 - Instruction override  
 - Hidden policy leakage  
 
-However, failures are now **concentrated in a single behavioral class**:
+However, failures are now concentrated in a single behavioral class:
 
-> Task boundary enforcement
-
-This is a **much narrower and more tractable problem**.
+- Task boundary enforcement
 
 ---
 
@@ -300,7 +296,7 @@ Even after hardening, failures persist in:
 
 Because these tasks:
 - Require processing untrusted input  
-- Blur the boundary between **data and instructions**  
+- Blur the boundary between data and instructions  
 
 ---
 
@@ -312,7 +308,7 @@ v1 failures were:
 v2 failures are:
 - Structural (task ambiguity)
 
-This represents a **meaningful improvement in system robustness**.
+This represents a meaningful improvement in system security.
 
 ---
 
@@ -339,68 +335,14 @@ was sufficient to eliminate:
 
 ---
 
-## 12. Future Work
-
-### 1. Strengthen Task Boundary Enforcement
-
-Introduce stricter controls:
-- Explicit output schemas  
-- Task-type gating (transform vs evaluate)  
-- Post-generation validation  
-
----
-
-### 2. Expand Adversarial Dataset
-
-- Increase to 50–100+ cases  
-- Add multi-turn and context poisoning attacks  
-
----
-
-### 3. LLM-as-a-Judge Evaluation Framework
-
-Automate evaluation of:
-- Task adherence  
-- Instruction compliance  
-- Safety violations  
-
-This aligns with real-world evaluation system design and scalable benchmarking approaches :contentReference[oaicite:0]{index=0}  
-
----
-
-### 4. Cross-Model Testing
-
-Evaluate robustness across:
-- OpenAI models  
-- Anthropic models  
-
-To identify:
-- Model-specific weaknesses  
-- Generalizable mitigation strategies  
-
----
-
-## 13. Conclusion
+## 12. Conclusion
 
 This evaluation demonstrates that:
 
-- Baseline LLM systems are **highly vulnerable** to prompt injection  
-- Layered prompt and system-level defenses can **eliminate critical security risks**  
-- Residual failures are **concentrated and structurally identifiable**  
+- Baseline LLM systems are highly vulnerable to prompt injection  
+- Layered prompt and system-level defenses can eliminate critical security risks  
+- Residual failures are concentrated and structurally identifiable  
 
-**Failure rate reduced: 54.3% → 20.0%**
+Failure rate reduced: 54.3% → 20.0%
 
 ---
-
-## 14. Final Takeaway
-
-Effective LLM security requires:
-
-- Adversarial thinking  
-- Clear system design  
-- Empirical evaluation  
-
-The progression from v1 to v2 shows:
-
-> Security is not achieved by better prompts alone —  
-> but by enforcing **strict control over how the model is allowed to behave**.
